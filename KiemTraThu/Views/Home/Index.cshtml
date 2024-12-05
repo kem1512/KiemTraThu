@@ -1,0 +1,40 @@
+﻿@model List<KiemTraThu.Data.LoaiHang>
+@{
+    Layout = "~/Views/Shared/_NguyenVietHaiDang_Layout.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="content">
+    @foreach (var x in Model)
+    {
+        <!-- Begin New Product -->
+        <div class="content_top">
+            <div class="heading">
+                <h3>@x.TenLoai - Nguyễn Viết Hải Đăng</h3>
+            </div>
+            <div class="see">
+                <p><a href="#">See all Products</a></p>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="section group">
+            @foreach (var y in x.HangHoas)
+            {
+                <div class="grid_1_of_4 images_1_of_4">
+                    <a href="/"><img src="/images/@y.Anh" alt="" /></a>
+                    <h2>@y.TenHang</h2>
+                    <div class="price-details">
+                        <div class="price-number">
+                            <p><span class="rupees">$@y.Gia</span></p>
+                        </div>
+                        <div class="add-cart">
+                            <h4><a href="/">Add to Cart</a></h4>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            }
+        </div>
+        <!-- End New Product -->
+    }
+</div>

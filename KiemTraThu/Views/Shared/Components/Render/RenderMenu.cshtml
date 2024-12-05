@@ -1,0 +1,14 @@
+﻿@model List<KiemTraThu.Data.LoaiHang>
+
+<div class="menu">
+	<ul>
+		<li class="active"><a href="/">Nguyễn Viết Hải Đăng</a></li>
+		@foreach (var x in Model)
+		{
+			<li><a href="@Url.ActionLink("Index", "Home", new { maLoaiHang = x.MaLoai })">@x.TenLoai</a></li>
+		}
+		<li><a href="@Url.ActionLink("Index", "Home", new { gia = 1000 })">Giá lớn hơn 1000</a></li>
+		<li><a href="@Url.ActionLink("Index", "HangHoa")">Hàng hóa</a></li>
+		<li class="clear"></li>
+	</ul>
+</div>
