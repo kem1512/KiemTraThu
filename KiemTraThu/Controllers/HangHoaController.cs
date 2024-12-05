@@ -47,7 +47,7 @@ namespace KiemTraThu.Controllers
         // GET: HangHoa/Create
         public IActionResult Create()
         {
-            ViewData["MaLoai"] = new SelectList(_context.LoaiHangs, "MaLoai", "MaLoai");
+            ViewData["MaLoai"] = new SelectList(_context.LoaiHangs, "MaLoai", "TenLoai");
             return View();
         }
 
@@ -56,16 +56,12 @@ namespace KiemTraThu.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaHang,MaLoai,TenHang,Gia,Anh")] HangHoa hangHoa)
+        public async Task<IActionResult> Create([Bind("MaLoai,TenHang,Gia,Anh")] HangHoa hangHoa)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(hangHoa);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["MaLoai"] = new SelectList(_context.LoaiHangs, "MaLoai", "MaLoai", hangHoa.MaLoai);
-            return View(hangHoa);
+            _context.Add(hangHoa);
+            await _context.SaveChangesAsync();
+            ViewData["MaLoai"] = new SelectList(_context.LoaiHangs, "MaLoai", "TenLoai", hangHoa.MaLoai);
+            return RedirectToAction("Index", hangHoa);
         }
 
         // GET: HangHoa/Edit/5
@@ -81,7 +77,7 @@ namespace KiemTraThu.Controllers
             {
                 return NotFound();
             }
-            ViewData["MaLoai"] = new SelectList(_context.LoaiHangs, "MaLoai", "MaLoai", hangHoa.MaLoai);
+            ViewData["MaLoai"] = new SelectList(_context.LoaiHangs, "MaLoai", "TenLoai", hangHoa.MaLoai);
             return View(hangHoa);
         }
 
@@ -97,27 +93,24 @@ namespace KiemTraThu.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    _context.Update(hangHoa);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!HangHoaExists(hangHoa.MaHang))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(hangHoa);
+                await _context.SaveChangesAsync();
             }
-            ViewData["MaLoai"] = new SelectList(_context.LoaiHangs, "MaLoai", "MaLoai", hangHoa.MaLoai);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!HangHoaExists(hangHoa.MaHang))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            ViewData["MaLoai"] = new SelectList(_context.LoaiHangs, "MaLoai", "TenLoai", hangHoa.MaLoai);
             return View(hangHoa);
         }
 
